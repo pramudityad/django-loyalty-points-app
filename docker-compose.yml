@@ -1,0 +1,55 @@
+version: '3'
+services:
+  loyalty_web:
+    build: .
+    container_name: loyalty_web
+    environment:
+      - PYTHONPATH=/app
+    command: gunicorn loyalty_project.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - loyalty_db
+      - loyalty_redis
+
+  loyalty_celery:
+    build: .
+    container_name: loyalty_celery
+    environment:
+      - PYTHONPATH=/app
+    command: celery -A loyalty_project worker -l info
+    volumes:
+      - .:/app
+    depends_on:
+      - loyalty_web
+      - loyalty_redis
+
+  loyalty_flower:
+    build: .
+    container_name: loyalty_flower
+    environment:
+      - PYTHONPATH=/app
+    command: celery -A loyalty_project flower --port=5555
+    ports:
+      - "5555:5555"
+    depends_on:
+      - loyalty_redis
+
+  loyalty_db:
+    image: postgres:13
+    container_name: loyalty_db
+    environment:
+      POSTGRES_DB: loyalty_db
+      POSTGRES_USER: loyalty_user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  loyalty_redis:
+    image: redis:6
+    container_name: loyalty_redis
+
+volumes:
+  postgres_data:
