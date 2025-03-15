@@ -65,7 +65,7 @@ DATABASES = {
         'NAME': 'loyalty_db',
         'USER': 'loyalty_user',
         'PASSWORD': 'password',
-        'HOST': 'db',
+        'HOST': 'loyalty_db',
         'PORT': 5432,
     },
     'warehouse': {
@@ -73,7 +73,7 @@ DATABASES = {
         'NAME': 'warehouse_db',
         'USER': 'loyalty_user',
         'PASSWORD': 'password',
-        'HOST': 'db',
+        'HOST': 'loyalty_db',
         'PORT': 5432,
     }
 }
