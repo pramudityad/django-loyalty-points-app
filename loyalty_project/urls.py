@@ -5,6 +5,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 from loyalty_project.views import CeleryStatusView
+from django.http import HttpResponse
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -15,6 +16,9 @@ schema_view = get_schema_view(
    public=True,
    permission_classes=(permissions.AllowAny,),
 )
+
+def home(request):
+    return HttpResponse("<h1>Welcome to the Loyalty Points System</h1>")
 
 urlpatterns = [
     path('', home, name='home'),
