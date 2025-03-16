@@ -1,5 +1,3 @@
-Below is your **README.md** file in Markdown format. You can copy this into your project:
-
 # Loyalty Points and Digital Payment System
 
 This project is a backend API for a loyalty points system integrated with a simulated digital payment system. It is built with Django, Django REST Framework, Celery, and PostgreSQL, and it supports user management, points earning and redemption, simulated payment transactions, voucher management, data warehousing for transactions, background tasks for expiring points, and JWT-based authentication with role-based access control.
