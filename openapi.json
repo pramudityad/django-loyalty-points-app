@@ -1,0 +1,838 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Loyalty Points and Digital Payment API",
+      "description": "API documentation for the loyalty points system",
+      "version": "v1"
+    },
+    "host": "127.0.0.1:8000",
+    "schemes": [
+      "http"
+    ],
+    "basePath": "/api",
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "securityDefinitions": {
+      "Bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer <token>\""
+      }
+    },
+    "security": [
+      {
+        "Bearer": []
+      }
+    ],
+    "paths": {
+      "/celery-status/": {
+        "get": {
+          "operationId": "celery-status_list",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "celery-status"
+          ]
+        },
+        "parameters": []
+      },
+      "/points-config/": {
+        "get": {
+          "operationId": "points-config_list",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/PointsConfig"
+                }
+              }
+            }
+          },
+          "tags": [
+            "points-config"
+          ]
+        },
+        "post": {
+          "operationId": "points-config_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/PointsConfig"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/PointsConfig"
+              }
+            }
+          },
+          "tags": [
+            "points-config"
+          ]
+        },
+        "parameters": []
+      },
+      "/points-config/{id}/": {
+        "get": {
+          "operationId": "points-config_read",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/PointsConfig"
+              }
+            }
+          },
+          "tags": [
+            "points-config"
+          ]
+        },
+        "put": {
+          "operationId": "points-config_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/PointsConfig"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/PointsConfig"
+              }
+            }
+          },
+          "tags": [
+            "points-config"
+          ]
+        },
+        "patch": {
+          "operationId": "points-config_partial_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/PointsConfig"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/PointsConfig"
+              }
+            }
+          },
+          "tags": [
+            "points-config"
+          ]
+        },
+        "delete": {
+          "operationId": "points-config_delete",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "points-config"
+          ]
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A unique integer value identifying this points config.",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      },
+      "/token/": {
+        "post": {
+          "operationId": "token_create",
+          "description": "Takes a set of user credentials and returns an access and refresh JSON web\ntoken pair to prove the authentication of those credentials.",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/TokenObtainPair"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/TokenObtainPair"
+              }
+            }
+          },
+          "tags": [
+            "token"
+          ]
+        },
+        "parameters": []
+      },
+      "/token/refresh/": {
+        "post": {
+          "operationId": "token_refresh_create",
+          "description": "Takes a refresh type JSON web token and returns an access type JSON web\ntoken if the refresh token is valid.",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/TokenRefresh"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/TokenRefresh"
+              }
+            }
+          },
+          "tags": [
+            "token"
+          ]
+        },
+        "parameters": []
+      },
+      "/transactions/": {
+        "post": {
+          "operationId": "transactions_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/PaymentTransaction"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/PaymentTransaction"
+              }
+            }
+          },
+          "tags": [
+            "transactions"
+          ]
+        },
+        "parameters": []
+      },
+      "/transactions/history/": {
+        "get": {
+          "operationId": "transactions_history_list",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/PaymentTransaction"
+                }
+              }
+            }
+          },
+          "tags": [
+            "transactions"
+          ]
+        },
+        "parameters": []
+      },
+      "/users/change-password/": {
+        "post": {
+          "operationId": "users_change-password_create",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "users"
+          ]
+        },
+        "parameters": []
+      },
+      "/users/password-reset/": {
+        "post": {
+          "operationId": "users_password-reset_create",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "users"
+          ]
+        },
+        "parameters": []
+      },
+      "/users/profile/": {
+        "get": {
+          "operationId": "users_profile_read",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "tags": [
+            "users"
+          ]
+        },
+        "put": {
+          "operationId": "users_profile_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "tags": [
+            "users"
+          ]
+        },
+        "patch": {
+          "operationId": "users_profile_partial_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "tags": [
+            "users"
+          ]
+        },
+        "parameters": []
+      },
+      "/users/register/": {
+        "post": {
+          "operationId": "users_register_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Register"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Register"
+              }
+            }
+          },
+          "tags": [
+            "users"
+          ]
+        },
+        "parameters": []
+      },
+      "/vouchers/": {
+        "get": {
+          "operationId": "vouchers_list",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Voucher"
+                }
+              }
+            }
+          },
+          "tags": [
+            "vouchers"
+          ]
+        },
+        "post": {
+          "operationId": "vouchers_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          },
+          "tags": [
+            "vouchers"
+          ]
+        },
+        "parameters": []
+      },
+      "/vouchers/{id}/": {
+        "get": {
+          "operationId": "vouchers_read",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          },
+          "tags": [
+            "vouchers"
+          ]
+        },
+        "put": {
+          "operationId": "vouchers_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          },
+          "tags": [
+            "vouchers"
+          ]
+        },
+        "patch": {
+          "operationId": "vouchers_partial_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          },
+          "tags": [
+            "vouchers"
+          ]
+        },
+        "delete": {
+          "operationId": "vouchers_delete",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "vouchers"
+          ]
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A unique integer value identifying this voucher.",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      },
+      "/vouchers/{id}/redeem/": {
+        "post": {
+          "operationId": "vouchers_redeem",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          },
+          "tags": [
+            "vouchers"
+          ]
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A unique integer value identifying this voucher.",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "definitions": {
+      "PointsConfig": {
+        "required": [
+          "membership_level"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "membership_level": {
+            "title": "Membership level",
+            "type": "string",
+            "enum": [
+              "bronze",
+              "silver",
+              "gold"
+            ]
+          },
+          "multiplier": {
+            "title": "Multiplier",
+            "type": "string",
+            "format": "decimal"
+          },
+          "threshold": {
+            "title": "Threshold",
+            "type": "string",
+            "format": "decimal"
+          }
+        }
+      },
+      "TokenObtainPair": {
+        "required": [
+          "username",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "title": "Password",
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "TokenRefresh": {
+        "required": [
+          "refresh"
+        ],
+        "type": "object",
+        "properties": {
+          "refresh": {
+            "title": "Refresh",
+            "type": "string",
+            "minLength": 1
+          },
+          "access": {
+            "title": "Access",
+            "type": "string",
+            "readOnly": true,
+            "minLength": 1
+          }
+        }
+      },
+      "PaymentTransaction": {
+        "required": [
+          "amount",
+          "payment_method",
+          "status",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "timestamp": {
+            "title": "Timestamp",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "amount": {
+            "title": "Amount",
+            "type": "string",
+            "format": "decimal"
+          },
+          "points_used": {
+            "title": "Points used",
+            "type": "string",
+            "format": "decimal"
+          },
+          "points_earned": {
+            "title": "Points earned",
+            "type": "string",
+            "format": "decimal"
+          },
+          "payment_method": {
+            "title": "Payment method",
+            "type": "string",
+            "enum": [
+              "Points",
+              "Dummy Virtual Account",
+              "Dummy Credit Card"
+            ]
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "enum": [
+              "Success",
+              "Failed"
+            ]
+          },
+          "failure_reason": {
+            "title": "Failure reason",
+            "type": "string",
+            "maxLength": 255,
+            "x-nullable": true
+          },
+          "user": {
+            "title": "User",
+            "type": "integer"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "username",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "username": {
+            "title": "Username",
+            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+            "type": "string",
+            "pattern": "^[\\w.@+-]+$",
+            "maxLength": 150,
+            "minLength": 1
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "minLength": 1
+          },
+          "points_balance": {
+            "title": "Points balance",
+            "type": "string",
+            "format": "decimal"
+          },
+          "membership_status": {
+            "title": "Membership status",
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1
+          }
+        }
+      },
+      "Register": {
+        "required": [
+          "username",
+          "email",
+          "password",
+          "password2"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+            "type": "string",
+            "pattern": "^[\\w.@+-]+$",
+            "maxLength": 150,
+            "minLength": 1
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "minLength": 1
+          },
+          "password": {
+            "title": "Password",
+            "type": "string",
+            "minLength": 1
+          },
+          "password2": {
+            "title": "Password2",
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "Voucher": {
+        "required": [
+          "name",
+          "description",
+          "points_required"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "minLength": 1
+          },
+          "points_required": {
+            "title": "Points required",
+            "type": "string",
+            "format": "decimal"
+          }
+        }
+      }
+    }
+  }
