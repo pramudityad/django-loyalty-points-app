@@ -23,8 +23,19 @@ class VoucherViewSet(viewsets.ModelViewSet):
     def redeem(self, request, pk=None):
         voucher = self.get_object()
         user = request.user
+        
+        # Log initial state
+        print(f"[VOUCHER DEBUG] User: {user.username}, Voucher: {voucher.name}")
+        print(f"[VOUCHER DEBUG] Points required: {voucher.points_required}, User balance: {user.points_balance}")
+        
         if user.points_balance < voucher.points_required:
+            print(f"[VOUCHER DEBUG] Redemption failed: Insufficient points")
             return Response({"detail": "Insufficient points."}, status=400)
+        
+        # Deduct points
+        old_balance = user.points_balance
         user.points_balance -= voucher.points_required
         user.save()
+        
+        print(f"[VOUCHER DEBUG] Redemption successful: Balance {old_balance} -> {user.points_balance}")
         return Response({"detail": f"Voucher '{voucher.name}' redeemed successfully."})
