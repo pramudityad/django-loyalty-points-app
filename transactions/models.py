@@ -24,9 +24,13 @@ class PaymentTransaction(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         # Simulate writing transaction details to the data warehouse.
-        from django.db import connections
-        with connections['warehouse'].cursor() as cursor:
-            cursor.execute(
-                "INSERT INTO payment_transaction (id, user_id, timestamp, amount, points_used, points_earned, payment_method, status, failure_reason) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                [self.id, self.user.id, self.timestamp, self.amount, self.points_used, self.points_earned, self.payment_method, self.status, self.failure_reason]
-            )
+        try:
+            from django.db import connections
+            with connections['warehouse'].cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO payment_transaction (id, user_id, timestamp, amount, points_used, points_earned, payment_method, status, failure_reason) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    [self.id, self.user.id, self.timestamp, self.amount, self.points_used, self.points_earned, self.payment_method, self.status, self.failure_reason]
+                )
+        except Exception as e:
+            # Log the error but don't stop the transaction from being saved
+            print(f"Warehouse write error: {e}")
