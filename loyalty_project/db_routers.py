@@ -5,10 +5,13 @@ class WarehouseRouter:
     based on a flag, you could implement the logic here.
     """
     def db_for_read(self, model, **hints):
+        if model._meta.app_label == 'transactions' and model.__name__ == 'PaymentTransaction':
+            return 'warehouse'
         return None  # Default to 'default' database
 
     def db_for_write(self, model, **hints):
-        # In this example, we assume that writes for the data warehouse occur manually.
+        if model._meta.app_label == 'transactions' and model.__name__ == 'PaymentTransaction':
+            return 'warehouse'
         return None
 
     def allow_relation(self, obj1, obj2, **hints):

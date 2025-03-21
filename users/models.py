@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from decimal import Decimal
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -15,3 +16,17 @@ class User(AbstractUser):
         else:
             self.membership_status = 'Bronze'
         self.save()
+
+    def calculate_points_earned(self, transaction_amount):
+        """Calculate points earned based on transaction amount and membership level."""
+        # Dummy implementation for now, will be updated later
+        return transaction_amount * Decimal('1.0')
+
+    def redeem_points(self, points_to_redeem):
+        """Redeem points, reducing the points balance."""
+        # Dummy implementation for now, will be updated later
+        if self.points_balance >= points_to_redeem:
+            self.points_balance -= points_to_redeem
+            self.save()
+        else:
+            raise ValueError("Insufficient points to redeem.")
