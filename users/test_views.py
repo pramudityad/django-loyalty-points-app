@@ -38,15 +38,11 @@ class TestUserViews:
     def test_update_user_admin(self, admin_client, user):
         """Test that admin users can update users (profile)."""
         url = reverse('profile')
-        print(user.username)
-        print(url)
         data = {
             'username': user.username + "new",
             'email': user.email,
         }
         response = admin_client.patch(url, data)
-        print(data)
-        print(admin_client)
         assert response.status_code == status.HTTP_200_OK
         user.refresh_from_db()
         assert user.points_balance == Decimal('2000.00')

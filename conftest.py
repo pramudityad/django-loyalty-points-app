@@ -1,4 +1,5 @@
 import pytest
+from pytest_mock import MockerFixture
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 from points.models import PointsConfig
@@ -27,8 +28,8 @@ def admin_client(api_client, admin_user):
 
 @pytest.fixture
 def user():
-    """Create and return a regular user."""
-    return User.objects.create_user(
+    """Create and return a regular user in both databases."""
+    user = User.objects.create_user(
         id=2,
         username='testuser',
         email='test@example.com',
@@ -36,6 +37,16 @@ def user():
         points_balance=Decimal('1000.00'),
         membership_status='Bronze'
     )
+    # Ensure user exists in the warehouse database as well
+    User.objects.using('warehouse').create(
+        id=2,  # Use the same ID
+        username='testuser',
+        email='test@example.com',
+        password='password123',
+        points_balance=Decimal('1000.00'),
+        membership_status='Bronze'
+    )
+    return user
 
 @pytest.fixture
 def admin_user():
@@ -90,10 +101,16 @@ def voucher():
 @pytest.fixture
 def transaction(user):
     """Create and return a payment transaction."""
-    return PaymentTransaction.objects.create(
+    return PaymentTransaction.objects.using('warehouse').create(
         user=user,
         amount=Decimal('100.00'),
         points_earned=Decimal('100.00'),
         payment_method='Dummy Credit Card',
         status='Success'
     )
+
+@pytest.fixture
+def mock_warehouse_connection(mocker: MockerFixture):
+    """Mock warehouse connection for tests."""
+    mock = mocker.patch('django.db.connections')
+    return mock

@@ -1,5 +1,6 @@
 import pytest
 from decimal import Decimal
+from django.core.exceptions import ValidationError
 from vouchers.models import Voucher
 
 @pytest.mark.django_db
@@ -17,9 +18,10 @@ class TestVoucherModel:
 
     def test_points_required_positive(self):
         """Test voucher requires positive points."""
-        with pytest.raises(Exception):
-            Voucher.objects.create(
-                name='Invalid Voucher',
-                description='Test',
-                points_required=-100.00
-            )
+        voucher = Voucher(
+            name='Invalid Voucher',
+            description='Test',
+            points_required=-100.00
+        )
+        with pytest.raises(ValidationError):
+            voucher.full_clean()

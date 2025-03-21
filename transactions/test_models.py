@@ -31,4 +31,6 @@ class TestPaymentTransactionModel:
             payment_method='Points',
             status='Success'
         )
-        transaction.save()  # Should not raise errors with mocked connection
+        transaction.save()
+        mock_warehouse_connection.__getitem__.assert_called_with('warehouse')
+        mock_warehouse_connection.__getitem__('warehouse').cursor.assert_called_once()
