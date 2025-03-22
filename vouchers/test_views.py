@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 from decimal import Decimal
 
-@pytest.mark.django_db
+@pytest.mark.django_db(databases=['default', 'warehouse'])
 class TestVoucherViews:
     def test_voucher_list(self, authenticated_client, voucher):
         """Test retrieving available vouchers."""

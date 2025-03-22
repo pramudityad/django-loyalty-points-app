@@ -30,7 +30,7 @@ class TestPointsConfigModel:
                 threshold=60000.00
             )
 
-@pytest.mark.django_db
+@pytest.mark.django_db(databases=['default', 'warehouse'])
 class TestPointsCalculations:
     from decimal import Decimal
     def test_points_earned_calculation(self, user, points_config_bronze):

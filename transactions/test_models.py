@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 pytestmark = pytest.mark.django_db(databases=['default', 'warehouse'])
 User = get_user_model()
 
+@pytest.mark.django_db(databases=['default', 'warehouse'])
 class TestPaymentTransactionModel:
     def test_create_transaction(self, user, mock_warehouse_connection):
         """Test creating a payment transaction."""

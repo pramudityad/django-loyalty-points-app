@@ -4,7 +4,7 @@ from decimal import Decimal
 
 User = get_user_model()
 
-@pytest.mark.django_db
+@pytest.mark.django_db(databases=['default', 'warehouse'])
 class TestUserModel:
     def test_create_user(self):
         """Test creating a new user."""

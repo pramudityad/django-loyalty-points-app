@@ -4,11 +4,11 @@ from django.urls import reverse
 from rest_framework import status
 from decimal import Decimal
 
-pytestmark = pytest.mark.django_db(databases=['default', 'warehouse'])
+@pytest.mark.django_db(databases=['default', 'warehouse'])
 class TestTransactionViews:
     def test_create_transaction(self, authenticated_client, user):
         """Test creating a new transaction."""
-        url = reverse('create-transaction') # corrected url name based on openapi.json
+        url = reverse('create-transaction')
         data = {
             'amount': '100.00',
             'points_used': '0',
@@ -23,7 +23,7 @@ class TestTransactionViews:
 
     #def test_transaction_list(self, authenticated_client, transaction):
     #    """Test retrieving user's transactions history."""
-    #    url = reverse('transaction-history') # corrected url name based on openapi.json
+    #    url = reverse('transaction-history')
     #    response = authenticated_client.get(url)
     #    assert response.status_code == status.HTTP_200_OK
 

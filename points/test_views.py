@@ -4,11 +4,11 @@ from rest_framework import status
 from decimal import Decimal
 from points.models import PointsConfig
 
-@pytest.mark.django_db
+@pytest.mark.django_db(databases=['default', 'warehouse'])
 class TestPointsViews:
     def test_points_config_list_admin_access(self, admin_client, points_config_bronze):
         """Test admin can retrieve points configuration list."""
-        url = reverse('points-config-list') # corrected url name based on openapi.json
+        url = reverse('points-config-list')
         response = admin_client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data) == 1
@@ -27,7 +27,7 @@ class TestPointsViews:
 
     def test_points_config_update_admin(self, admin_client, points_config_bronze):
         """Test admin can update points configuration."""
-        url = reverse('points-config-detail', args=[points_config_bronze.id]) # corrected url name based on openapi.json
+        url = reverse('points-config-detail', args=[points_config_bronze.id])
         data = {'multiplier': '1.75'}
         response = admin_client.patch(url, data)
         assert response.status_code == status.HTTP_200_OK
@@ -36,7 +36,7 @@ class TestPointsViews:
 
     def test_points_config_delete_admin(self, admin_client, points_config_bronze):
         """Test admin can delete points configuration."""
-        url = reverse('points-config-detail', args=[points_config_bronze.id]) # corrected url name based on openapi.json
+        url = reverse('points-config-detail', args=[points_config_bronze.id])
         response = admin_client.delete(url)
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert PointsConfig.objects.count() == 0
