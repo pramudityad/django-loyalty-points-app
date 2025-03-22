@@ -66,6 +66,7 @@ This project is a backend API for a loyalty points system integrated with a simu
 
    - **API/Homepage:** [http://127.0.0.1:8000/](http://127.0.0.1:8000/) (if a default homepage is set up)
    - **Django Admin:** [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
+   - **Swagger UI:** [http://127.0.0.1:8000/swagger/](http://127.0.0.1:8000/swagger/)
    - **Flower (Celery Monitoring):** [http://127.0.0.1:5555/](http://127.0.0.1:5555/)
 
 ### Running Unit Tests
